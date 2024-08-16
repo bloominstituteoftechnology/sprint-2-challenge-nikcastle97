@@ -7,26 +7,106 @@
     // 👉 CHALLENGE 1
     function profileActivation(profile, reason) {
 
+      if (profile.active === true && reason === undefined) {
+        return 'confirm status manually'
+      }
+      if (profile.active === false && profile.reason !== undefined) {
+        profile.active = true;
+        delete profile.reason
+      } else if (profile.active === true) {
+        profile.active = false;
+        profile.reason = reason
+      }
+      return profile
     }
 
     // 👉 CHALLENGE 2
     function mineSweeper(grid, x, y) {
+      const a = x - 1;
+      const b = y - 1;
 
+      for (let i = 0; i < grid.length; i++) {
+        for (let j = 1; j < grid[i].length; j++) {
+          if ((a < 0 || a > 2) || (b < 0 || b > 2)) {
+            return 'invalid coordinates'
+          } else if (grid[b][a].includes("🟦")) {
+            return "🟦 🥳"
+          } else {
+            return "🟥 💀"
+          }
+        }
+      }
     }
 
     // 👉 CHALLENGE 3
     function booleanize(obj) {
+      const object = obj
 
+      let result
+
+      for (const [key, value] of Object.entries(object)) {
+        const keyName = key.length
+
+        if (value === null) {
+          delete object[key]
+          result = object
+        }
+        if (value === 1) {
+          object[key] = true
+          result = object
+        }
+        if (value === 0) {
+          object[key] = false
+          result = object
+        }
+        if (keyName > 9) {
+          result = "shorten all prop names to 9 chars or less"
+        }
+      }
+      return result
     }
 
     // 👉 CHALLENGE 4
     function scrub(text, forbidden) {
+      //Creates an array of words from sentence provided by 'text'.
+      let textArray = String(text).split(' ')
+      let scrubbedText
 
+      //Checks if any word in textArray is forbidden.
+      if (textArray.includes(...forbidden)) {
+        //Iterates thru each word in the array and compares it to forbidden, isolating the forbidden words.
+        textArray.forEach(word => {
+          if(forbidden.includes(word)) {
+            //censors the forbidden word
+            let scrubbedWord = word.replace(/./g, 'x')
+            //replaces the old word for the new value
+            textArray[textArray.indexOf(word)] = scrubbedWord
+            //turns the array back into a string
+            scrubbedText = textArray.join(' ')
+            return scrubbedText
+          }
+        })
+        return scrubbedText
+      }
+      //If nothing is forbidden, simply return the original
+      else {
+        return text
+      }
     }
 
     // 👉 CHALLENGE 5 (bonus, NOT graded)
     function normalizePhoneNumber(num) {
-
+      let configNum
+      let numArray = String(num).split('')
+      numArray.forEach(element => {
+        if (num.length = 10) {
+          let areaCode = `(` + `${numArray[0]}` + `${numArray[1]}` + `${numArray[2]}` + `) `
+          let threeDigit = `${numArray[3]}` + `${numArray[4]}` + `${numArray[5]}-`
+          let fourDigit = `${numArray[6]}` + `${numArray[7]}` + `${numArray[8]}` + `${numArray[9]}`
+          configNum = areaCode + threeDigit + fourDigit
+        }
+      });
+      return configNum
     }
 
     // 👉 CHALLENGE 6 (bonus, NOT graded)
